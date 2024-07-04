@@ -1,0 +1,1731 @@
+# menuAgendamento.kv
+
+<MenuAgendamento>:
+    id: tela_agendamento
+    BoxLayout:
+        orientation: 'horizontal'
+
+        # Menu lateral
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_x: 0.25
+            padding: 20
+            spacing: 20
+            canvas.before:
+                Color:
+                    rgba: 0.2, 0.2, 0.2, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            # Imagem no topo do menu
+            Image:
+                source: 'data/logo.png'  # Caminho atualizado para a imagem
+                size_hint_y: None
+                height: 100
+                allow_stretch: True
+                keep_ratio: True
+                pos_hint: {'center_x': 0.5}
+            Label:
+                text: 'Usuario:'
+                size_hint_y: None
+                height: 20
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_x: 0.25
+                size_hint_y: 0.15
+                pos_hint: {'center_x': 0.5}
+                padding: 20
+                spacing: 0  # Remove o espaçamento entre os widgets
+
+                Button:
+                    id: identificador_id
+                    text: 'ID'
+                    size_hint_y: None
+                    height: 20  # Altura do primeiro botão
+
+                Button:
+                    id: identificador_cpf
+                    text: 'CPF'
+                    size_hint_y: None
+                    height: 20  # Altura do segundo botão
+            Label:
+                text: 'Menu'
+                size_hint_y: None
+                height: 40
+                color: 1, 1, 1, 1
+                font_size: 24
+                halign: 'center'
+
+            Button:
+                text: 'Agendamento'
+                size_hint_y: None
+                height: 40
+                on_release: root.ids.screen_manager.current = 'agendamento'
+            Button:
+                text: 'Pacientes'
+                size_hint_y: None
+                height: 40
+                on_release: root.ids.screen_manager.current = 'pacientes'
+
+            Widget:  # Espaço flexível
+                size_hint_y: 1
+
+            Button:
+                text: 'Sair'
+                size_hint_y: None
+                height: 40
+                on_release: root.sair()
+
+        # Área de conteúdo
+        ScreenManager:
+            id: screen_manager
+            Screen:
+                name: 'inicio'
+                BoxLayout:
+                    orientation: 'vertical'
+                    Image:
+                        source: 'data/logo.png'  # Caminho atualizado para a imagem
+                        allow_stretch: True
+                        keep_ratio: True
+
+# Tela de Agendamento ------------------------------------------------------------------
+
+            Screen:
+                name: 'agendamento'
+                BoxLayout:
+                    orientation: 'horizontal'
+
+                    BoxLayout:
+                        orientation: 'vertical'
+
+                        ScreenManager:
+                            id: screen_manager_agendamento
+
+                            # Tela de Agendamento
+                            Screen:
+                                name: 'agendar'
+                                BoxLayout:
+                                    orientation: 'vertical'
+                                    padding: 20
+                                    spacing: 20
+                                    canvas.before:
+                                        Color:
+                                            rgba: 0.9, 0.9, 0.9, 1  # Fundo claro
+                                        Rectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                    Label:
+                                        text: 'Agendar Consulta'
+                                        font_size: 44
+                                        color: 0, 0, 0, 1
+                                        size_hint_y: None
+                                        height: 50
+                                    BoxLayout:
+                                        orientation: 'horizontal'
+                                        padding: [10, 50, 10, 10]
+                                        spacing: 20
+                                        size_hint_y: None
+                                        height: self.minimum_height
+                                        Label:
+                                            text: 'Buscar Paciente:'
+                                            font_size: 18
+                                            color: 0, 0, 0, 1
+                                            size_hint_x: None
+                                            width: 155
+                                            height: 40
+                                        TextInput:
+                                            id: buscar_pacientes_agendamento
+                                            hint_text: 'CPF'
+                                            multiline: False
+                                            font_size: 18
+                                            size_hint: None, None
+                                            size: 200, 40
+                                        Button:
+                                            text: 'Buscar'
+                                            size_hint: None, None
+                                            size: 100, 40
+                                            on_release: root.buscar_paciente_agendamento()
+                                    ScrollView:
+                                        BoxLayout:
+                                            orientation: 'vertical'
+                                            padding: [10, 50, 10, 10]
+                                            spacing: 20
+                                            size_hint_y: None
+                                            height: self.minimum_height
+
+                                            Label:
+                                                text: 'Nome Completo:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 135
+                                                height: 40
+                                            TextInput:
+                                                id: nome_agendar
+                                                hint_text: 'Nome Completo'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'CPF:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 35
+                                                height: 40
+                                            TextInput:
+                                                id: cpf_agendar
+                                                hint_text: 'CPF'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Telefone Fixo:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 105
+                                                height: 40
+                                            TextInput:
+                                                id: telefone_fixo_agendar
+                                                hint_text: 'Telefone Fixo'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Telefone Celular:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 130
+                                                height: 40
+                                            TextInput:
+                                                id: telefone_celular_agendar
+                                                hint_text: 'Telefone Celular'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Data da Consulta:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 140
+                                                height: 40
+                                            TextInput:
+                                                id: data_consulta_agendar
+                                                hint_text: 'DD/MM/AAAA'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Horario da Consulta:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 160
+                                                height: 40
+                                            TextInput:
+                                                id: horario_consulta_agendar
+                                                hint_text: 'HH:MM'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Convênio/Plano de Saúde:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 210
+                                                height: 40
+                                            Spinner:
+                                                id: tem_convenio_agendar
+                                                text: 'Opções'
+                                                values: ['Sim', 'Não']
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Qual empresa do convênio/plano de saúde:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 340
+                                                height: 40
+                                            Spinner:
+                                                id: nome_convenio_agendar
+                                                text: 'Não Possui'
+                                                values: root.convenios_agendar if hasattr(root, 'convenios_agendar') else []
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Médico:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 65
+                                                height: 40
+                                            Spinner:
+                                                id: medico_agendar
+                                                text: 'Médicos'
+                                                values: root.medicos_disponiveis if hasattr(root, 'medicos_disponiveis') else []
+                                                size_hint_y: None
+                                                height: 40
+                                            Button:
+                                                text: 'Cadastrar'
+                                                size_hint_y: None
+                                                height: 50
+                                                on_release: root.agendar_consulta()
+
+                            # Tela de listagem de Consultas
+                            Screen:
+                                name: 'listar_consultas'
+                                on_enter: root.visualizar_consulta()
+                                BoxLayout:
+                                    orientation: 'vertical'
+                                    padding: 20
+                                    spacing: 20
+                                    canvas.before:
+                                        Color:
+                                            rgba: 0.9, 0.9, 0.9, 1  # Fundo claro
+                                        Rectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                    BoxLayout:
+                                        size_hint_y: None
+                                        height: 30
+                                        canvas.before:
+                                            Color:
+                                                rgba: (0.2, 0.2, 0.2, 1)
+                                            Rectangle:
+                                                size: self.size
+                                                pos: self.pos
+                                        Label:
+                                            text: 'Nome'
+                                        Label:
+                                            text: 'CPF'
+                                        Label:
+                                            text: 'Telefone Fixo'
+                                        Label:
+                                            text: 'Telefone Celular'
+                                        Label:
+                                            text: 'Data da Consulta'
+                                        Label:
+                                            text: 'Horario da Consulta'
+                                        Label:
+                                            text: 'Tem Convenio'
+                                        Label:
+                                            text: 'Nome Convenio'
+                                        Label:
+                                            text: 'Médico'
+                                    GridLayout:
+                                        id: consultas_grid
+                                        cols: 1
+
+                            # Tela de Editar Consulta
+                            Screen:
+                                name: 'editar_consulta'
+                                BoxLayout:
+                                    orientation: 'vertical'
+                                    padding: 20
+                                    spacing: 20
+                                    canvas.before:
+                                        Color:
+                                            rgba: 0.9, 0.9, 0.9, 1  # Fundo claro
+                                        Rectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                    Label:
+                                        text: 'Editar Consulta'
+                                        font_size: 44
+                                        color: 0, 0, 0, 1
+                                        size_hint_y: None
+                                        height: 50
+
+                                    BoxLayout:
+                                        orientation: 'horizontal'
+                                        padding: [10, 50, 10, 10]
+                                        spacing: 20
+                                        size_hint_y: None
+                                        height: self.minimum_height
+                                        Label:
+                                            text: 'Buscar Consulta:'
+                                            font_size: 18
+                                            color: 0, 0, 0, 1
+                                            size_hint_x: None
+                                            width: 155
+                                            height: 40
+                                        TextInput:
+                                            id: buscar_consultas_cpf_editar
+                                            hint_text: 'CPF'
+                                            multiline: False
+                                            font_size: 18
+                                            size_hint: None, None
+                                            size: 200, 40
+                                        TextInput:
+                                            id: buscar_consultas_data_editar
+                                            hint_text: 'Data: DD/MM/AAAA'
+                                            multiline: False
+                                            font_size: 18
+                                            size_hint: None, None
+                                            size: 200, 40
+                                        TextInput:
+                                            id: buscar_consultas_horario_editar
+                                            hint_text: 'Horario: HH/MM'
+                                            multiline: False
+                                            font_size: 18
+                                            size_hint: None, None
+                                            size: 200, 40
+                                        TextInput:
+                                            id: buscar_consultas_medico_editar
+                                            hint_text: 'Nome do Medico'
+                                            multiline: False
+                                            font_size: 18
+                                            size_hint: None, None
+                                            size: 200, 40
+                                        Button:
+                                            text: 'Buscar'
+                                            size_hint: None, None
+                                            size: 100, 40
+                                            on_release: root.buscar_consulta()
+                                    ScrollView:
+                                        BoxLayout:
+                                            orientation: 'vertical'
+                                            padding: [10, 50, 10, 10]
+                                            spacing: 20
+                                            size_hint_y: None
+                                            height: self.minimum_height
+                                            id: dados_consulta
+                                            Label:
+                                                text: 'Nome Completo:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 135
+                                                height: 40
+                                            TextInput:
+                                                id: nome_agendar_editar
+                                                hint_text: 'Nome Completo'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'CPF:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 35
+                                                height: 40
+                                            TextInput:
+                                                id: cpf_agendar_editar
+                                                hint_text: 'CPF'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Telefone Fixo:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 105
+                                                height: 40
+                                            TextInput:
+                                                id: telefone_fixo_agendar_editar
+                                                hint_text: 'Telefone Fixo'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Telefone Celular:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 130
+                                                height: 40
+                                            TextInput:
+                                                id: telefone_celular_agendar_editar
+                                                hint_text: 'Telefone Celular'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Data da Consulta:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 140
+                                                height: 40
+                                            TextInput:
+                                                id: data_consulta_agendar_editar
+                                                hint_text: 'DD/MM/AAAA'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Horario da Consulta:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 160
+                                                height: 40
+                                            TextInput:
+                                                id: horario_consulta_agendar_editar
+                                                hint_text: 'HH:MM'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Convênio/Plano de Saúde:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 210
+                                                height: 40
+                                            Spinner:
+                                                id: tem_convenio_agendar_editar
+                                                text: 'Opções'
+                                                values: ['Sim', 'Não']
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Qual empresa do convênio/plano de saúde:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 340
+                                                height: 40
+                                            Spinner:
+                                                id: nome_convenio_agendar_editar
+                                                text: 'Não Possui'
+                                                values: root.convenios_agendar_editar if hasattr(root, 'convenios_agendar_editar') else []
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Médico:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 65
+                                                height: 40
+                                            Spinner:
+                                                id: medico_agendar_editar
+                                                text: 'Médicos'
+                                                values: root.medicos_disponiveis_editar if hasattr(root, 'medicos_disponiveis_editar') else []
+                                                size_hint_y: None
+                                                height: 40
+                                            Button:
+                                                text: 'Salvar'
+                                                size_hint_y: None
+                                                height: 50
+                                                on_release: root.editar_consulta()
+
+                            # Tela de Excluir Consulta
+                            Screen:
+                                name: 'excluir_consulta'
+                                BoxLayout:
+                                    orientation: 'vertical'
+                                    padding: 20
+                                    spacing: 20
+                                    canvas.before:
+                                        Color:
+                                            rgba: 0.9, 0.9, 0.9, 1  # Fundo claro
+                                        Rectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                    Label:
+                                        text: 'Excluir Consulta'
+                                        font_size: 44
+                                        color: 0, 0, 0, 1
+                                        size_hint_y: None
+                                        height: 50
+
+                                    BoxLayout:
+                                        orientation: 'horizontal'
+                                        padding: [10, 50, 10, 10]
+                                        spacing: 20
+                                        size_hint_y: None
+                                        height: self.minimum_height
+                                        Label:
+                                            text: 'Buscar Consulta:'
+                                            font_size: 18
+                                            color: 0, 0, 0, 1
+                                            size_hint_x: None
+                                            width: 155
+                                            height: 40
+                                        TextInput:
+                                            id: buscar_consultas_cpf_excluir
+                                            hint_text: 'CPF'
+                                            multiline: False
+                                            font_size: 18
+                                            size_hint: None, None
+                                            size: 200, 40
+                                        TextInput:
+                                            id: buscar_consultas_data_excluir
+                                            hint_text: 'Data: DD/MM/AAAA'
+                                            multiline: False
+                                            font_size: 18
+                                            size_hint: None, None
+                                            size: 200, 40
+                                        TextInput:
+                                            id: buscar_consultas_horario_excluir
+                                            hint_text: 'Horario: HH/MM'
+                                            multiline: False
+                                            font_size: 18
+                                            size_hint: None, None
+                                            size: 200, 40
+                                        TextInput:
+                                            id: buscar_consultas_medico_excluir
+                                            hint_text: 'Nome do Medico'
+                                            multiline: False
+                                            font_size: 18
+                                            size_hint: None, None
+                                            size: 200, 40
+                                        Button:
+                                            text: 'Buscar'
+                                            size_hint: None, None
+                                            size: 100, 40
+                                            on_release: root.buscar_consulta()
+
+                                    ScrollView:
+                                        BoxLayout:
+                                            orientation: 'vertical'
+                                            padding: [10, 50, 10, 10]
+                                            spacing: 20
+                                            size_hint_y: None
+                                            height: self.minimum_height
+                                            id: dados_consulta
+                                            Label:
+                                                text: 'Nome Completo:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 135
+                                                height: 40
+                                            TextInput:
+                                                id: nome_agendar_excluir
+                                                hint_text: 'Nome Completo'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'CPF:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 35
+                                                height: 40
+                                            TextInput:
+                                                id: cpf_agendar_excluir
+                                                hint_text: 'CPF'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Telefone Fixo:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 105
+                                                height: 40
+                                            TextInput:
+                                                id: telefone_fixo_agendar_excluir
+                                                hint_text: 'Telefone Fixo'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Telefone Celular:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 130
+                                                height: 40
+                                            TextInput:
+                                                id: telefone_celular_agendar_excluir
+                                                hint_text: 'Telefone Celular'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Data da Consulta:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 140
+                                                height: 40
+                                            TextInput:
+                                                id: data_consulta_agendar_excluir
+                                                hint_text: 'DD/MM/AAAA'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Horario da Consulta:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 160
+                                                height: 40
+                                            TextInput:
+                                                id: horario_consulta_agendar_excluir
+                                                hint_text: 'HH:MM'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Convênio/Plano de Saúde:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 210
+                                                height: 40
+                                            Spinner:
+                                                id: tem_convenio_agendar_excluir
+                                                text: 'Opções'
+                                                values: []
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Qual empresa do convênio/plano de saúde:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 340
+                                                height: 40
+                                            Spinner:
+                                                id: nome_convenio_agendar_excluir
+                                                text: 'Não Possui'
+                                                values: []
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Médico:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 65
+                                                height: 40
+                                            Spinner:
+                                                id: medico_agendar_excluir
+                                                text: 'Médicos'
+                                                values: []
+                                                size_hint_y: None
+                                                height: 40
+                                            Button:
+                                                text: 'Excluir'
+                                                size_hint_y: None
+                                                height: 50
+                                                on_release: root.excluir_consulta()
+
+                        BoxLayout:
+                            orientation: 'vertical'
+                            size_hint_y: None
+                            height: self.minimum_height
+                            spacing: 10
+
+                            canvas.before:
+                                Color:
+                                    rgba: 0.2, 0.2, 0.2, 1  # Cor para o fundo
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+
+                            Label:
+                                text: "Agendar/Listar/Editar/Excluir:"
+                                font_size: 44
+                                size_hint_y: None
+                                height: 70
+
+                            BoxLayout:
+                                size_hint_y: None
+                                height: 40
+                                spacing: 10
+
+                                Button:
+                                    text: "Agendar Consulta"
+                                    on_release: root.ids.screen_manager_agendamento.current = 'agendar'
+
+                                Button:
+                                    text: "Listar Consultas"
+                                    on_release: root.ids.screen_manager_agendamento.current = 'listar_consultas'
+
+                                Button:
+                                    text: "Editar Consulta"
+                                    on_release: root.ids.screen_manager_agendamento.current = 'editar_consulta'
+
+                                Button:
+                                    text: "Excluir Consulta"
+                                    on_release: root.ids.screen_manager_agendamento.current = 'excluir_consulta'
+
+                            Widget:  # Widget vazio para adicionar espaço abaixo dos botões
+                                size_hint_y: None
+                                height: 10  # Altura do espaço abaixo dos botões
+
+# Tela de Cadastro de Paciente ---------------------------------------------------------
+
+            Screen:
+                name: 'pacientes'
+                BoxLayout:
+                    orientation: 'horizontal'
+
+                    BoxLayout:
+                        orientation: 'vertical'
+
+                        ScreenManager:
+                            id: screen_manager_paciente
+
+                            # Tela de Cadastro de Paciente
+                            Screen:
+                                name: 'cadastrar_paciente'
+                                BoxLayout:
+                                    orientation: 'vertical'
+                                    padding: 20
+                                    spacing: 20
+                                    canvas.before:
+                                        Color:
+                                            rgba: 0.9, 0.9, 0.9, 1  # Fundo claro
+                                        Rectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                    Label:
+                                        text: 'Cadastro de Pacientes'
+                                        font_size: 44
+                                        color: 0, 0, 0, 1
+                                        size_hint_y: None
+                                        height: 50
+                                    ScrollView:
+                                        BoxLayout:
+                                            orientation: 'vertical'
+                                            padding: [10, 50, 10, 10]
+                                            spacing: 20
+                                            size_hint_y: None
+                                            height: self.minimum_height
+
+                                            Label:
+                                                text: 'Nome Completo:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 135
+                                                height: 40
+                                            TextInput:
+                                                id: nome_cadastro
+                                                hint_text: 'Nome Completo'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'RG:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 25
+                                                height: 40
+                                            TextInput:
+                                                id: rg_cadastro
+                                                hint_text: 'RG'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'CPF:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 35
+                                                height: 40
+                                            TextInput:
+                                                id: cpf_cadastro
+                                                hint_text: 'CPF'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Rua:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 35
+                                                height: 40
+                                            TextInput:
+                                                id: rua_cadastro
+                                                hint_text: 'Rua'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Número:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 70
+                                                height: 40
+                                            TextInput:
+                                                id: numero_cadastro
+                                                hint_text: 'Número'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Complemento:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 115
+                                                height: 40
+                                            TextInput:
+                                                id: complemento_cadastro
+                                                hint_text: 'Complemento'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Bairro:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 50
+                                                height: 40
+                                            TextInput:
+                                                id: bairro_cadastro
+                                                hint_text: 'Bairro'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Cidade:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 60
+                                                height: 40
+                                            TextInput:
+                                                id: cidade_cadastro
+                                                hint_text: 'Cidade'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Estado:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 60
+                                                height: 40
+                                            TextInput:
+                                                id: estado_cadastro
+                                                hint_text: 'Estado'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'CEP:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 35
+                                                height: 40
+                                            TextInput:
+                                                id: cep_cadastro
+                                                hint_text: 'CEP'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Telefone Fixo:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 105
+                                                height: 40
+                                            TextInput:
+                                                id: telefone_fixo_cadastro
+                                                hint_text: 'Telefone Fixo'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Telefone Celular:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 130
+                                                height: 40
+                                            TextInput:
+                                                id: telefone_celular_cadastro
+                                                hint_text: 'Telefone Celular'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Data de Nascimento:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 165
+                                                height: 40
+                                            TextInput:
+                                                id: data_nascimento_cadastro
+                                                hint_text: 'DD/MM/AAAA'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Sexo:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 45
+                                                height: 40
+                                            Spinner:
+                                                id: sexo_cadastro
+                                                text: 'Sexo'
+                                                values: ['Masculino', 'Feminino']
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Possui Convênio/Plano de Saúde:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 265
+                                                height: 40
+                                            Spinner:
+                                                id: tem_convenio_cadastro
+                                                text: 'Opções'
+                                                values: ['Sim', 'Não']
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Qual empresa do convênio/plano de saúde:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 340
+                                                height: 40
+                                            Spinner:
+                                                id: nome_convenio_cadastro
+                                                text: 'Não Possui'
+                                                values: root.convenios_cadastrar if hasattr(root, 'convenios_cadastrar') else []
+                                                size_hint_y: None
+                                                height: 40
+                                            Button:
+                                                text: 'Cadastrar'
+                                                size_hint_y: None
+                                                height: 50
+                                                on_release: root.cadastrar_paciente()
+
+                            # Tela de listagem de Pacientes
+                            Screen:
+                                name: 'listar_pacientes'
+                                on_enter: root.visualizar_paciente()
+                                BoxLayout:
+                                    orientation: 'vertical'
+                                    padding: 20
+                                    spacing: 20
+                                    canvas.before:
+                                        Color:
+                                            rgba: 0.9, 0.9, 0.9, 1  # Fundo claro
+                                        Rectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                    BoxLayout:
+                                        size_hint_y: None
+                                        height: 30
+                                        canvas.before:
+                                            Color:
+                                                rgba: (0.2, 0.2, 0.2, 1)
+                                            Rectangle:
+                                                size: self.size
+                                                pos: self.pos
+                                        Label:
+                                            text: 'Nome'
+                                        Label:
+                                            text: 'RG'
+                                        Label:
+                                            text: 'CPF'
+                                        Label:
+                                            text: 'Rua'
+                                        Label:
+                                            text: 'Número'
+                                        Label:
+                                            text: 'Complemento'
+                                        Label:
+                                            text: 'Bairro'
+                                        Label:
+                                            text: 'Cidade'
+                                        Label:
+                                            text: 'Estado'
+                                        Label:
+                                            text: 'CEP'
+                                        Label:
+                                            text: 'Telefone Fixo'
+                                        Label:
+                                            text: 'Telefone Celular'
+                                        Label:
+                                            text: 'Data de Nascimento'
+                                        Label:
+                                            text: 'Sexo'
+                                        Label:
+                                            text: 'Tem Convenio'
+                                        Label:
+                                            text: 'Nome Convenio'
+                                    GridLayout:
+                                        id: pacientes_grid
+                                        cols: 1
+
+                            # Tela de Editar Paciente
+                            Screen:
+                                name: 'editar_paciente'
+                                BoxLayout:
+                                    orientation: 'vertical'
+                                    padding: 20
+                                    spacing: 20
+                                    canvas.before:
+                                        Color:
+                                            rgba: 0.9, 0.9, 0.9, 1  # Fundo claro
+                                        Rectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                    Label:
+                                        text: 'Editar Paciente'
+                                        font_size: 44
+                                        color: 0, 0, 0, 1
+                                        size_hint_y: None
+                                        height: 50
+
+                                    BoxLayout:
+                                        orientation: 'horizontal'
+                                        padding: [10, 50, 10, 10]
+                                        spacing: 20
+                                        size_hint_y: None
+                                        height: self.minimum_height
+                                        Label:
+                                            text: 'Buscar Paciente:'
+                                            font_size: 18
+                                            color: 0, 0, 0, 1
+                                            size_hint_x: None
+                                            width: 155
+                                            height: 40
+                                        TextInput:
+                                            id: buscar_pacientes_editar
+                                            hint_text: 'CPF'
+                                            multiline: False
+                                            font_size: 18
+                                            size_hint: None, None
+                                            size: 200, 40
+                                        Button:
+                                            text: 'Buscar'
+                                            size_hint: None, None
+                                            size: 100, 40
+                                            on_release: root.buscar_paciente()
+                                    ScrollView:
+                                        BoxLayout:
+                                            orientation: 'vertical'
+                                            padding: [10, 50, 10, 10]
+                                            spacing: 20
+                                            size_hint_y: None
+                                            height: self.minimum_height
+                                            id: dados_paciente
+                                            Label:
+                                                text: 'Nome Completo:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 135
+                                                height: 40
+                                            TextInput:
+                                                id: nome_editar
+                                                hint_text: 'Nome Completo'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'RG:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 25
+                                                height: 40
+                                            TextInput:
+                                                id: rg_editar
+                                                hint_text: 'RG'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'CPF:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 35
+                                                height: 40
+                                            TextInput:
+                                                id: cpf_editar
+                                                hint_text: 'CPF'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Rua:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 35
+                                                height: 40
+                                            TextInput:
+                                                id: rua_editar
+                                                hint_text: 'Rua'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Número:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 70
+                                                height: 40
+                                            TextInput:
+                                                id: numero_editar
+                                                hint_text: 'Número'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Complemento:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 115
+                                                height: 40
+                                            TextInput:
+                                                id: complemento_editar
+                                                hint_text: 'Complemento'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Bairro:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 50
+                                                height: 40
+                                            TextInput:
+                                                id: bairro_editar
+                                                hint_text: 'Bairro'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Cidade:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 60
+                                                height: 40
+                                            TextInput:
+                                                id: cidade_editar
+                                                hint_text: 'Cidade'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Estado:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 60
+                                                height: 40
+                                            TextInput:
+                                                id: estado_editar
+                                                hint_text: 'Estado'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'CEP:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 35
+                                                height: 40
+                                            TextInput:
+                                                id: cep_editar
+                                                hint_text: 'CEP'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Telefone Fixo:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 105
+                                                height: 40
+                                            TextInput:
+                                                id: telefone_fixo_editar
+                                                hint_text: 'Telefone Fixo'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Telefone Celular:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 130
+                                                height: 40
+                                            TextInput:
+                                                id: telefone_celular_editar
+                                                hint_text: 'Telefone Celular'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Data de Nascimento:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 165
+                                                height: 40
+                                            TextInput:
+                                                id: data_nascimento_editar
+                                                hint_text: 'DD/MM/AAAA'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Sexo:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 45
+                                                height: 40
+                                            Spinner:
+                                                id: sexo_editar
+                                                text: 'Sexo'
+                                                values: ['Masculino', 'Feminino']
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Possui Convênio/Plano de Saúde:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 265
+                                                height: 40
+                                            Spinner:
+                                                id: tem_convenio_editar
+                                                text: 'Opções'
+                                                values: ['Sim', 'Não']
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Qual empresa do convênio/plano de saúde:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 340
+                                                height: 40
+                                            Spinner:
+                                                id: nome_convenio_editar
+                                                text: 'Não Possui'
+                                                values: root.convenios_editar if hasattr(root, 'convenios_editar') else []
+                                                size_hint_y: None
+                                                height: 40
+                                            Button:
+                                                text: 'Salvar'
+                                                size_hint_y: None
+                                                height: 50
+                                                on_release: root.editar_paciente()
+
+                            # Tela de Excluir Paciente
+                            Screen:
+                                name: 'excluir_paciente'
+                                BoxLayout:
+                                    orientation: 'vertical'
+                                    padding: 20
+                                    spacing: 20
+                                    canvas.before:
+                                        Color:
+                                            rgba: 0.9, 0.9, 0.9, 1  # Fundo claro
+                                        Rectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                    Label:
+                                        text: 'Excluir Paciente'
+                                        font_size: 44
+                                        color: 0, 0, 0, 1
+                                        size_hint_y: None
+                                        height: 50
+
+                                    BoxLayout:
+                                        orientation: 'horizontal'
+                                        padding: [10, 50, 10, 10]
+                                        spacing: 20
+                                        size_hint_y: None
+                                        height: self.minimum_height
+                                        Label:
+                                            text: 'Buscar Paciente:'
+                                            font_size: 18
+                                            color: 0, 0, 0, 1
+                                            size_hint_x: None
+                                            width: 155
+                                            height: 40
+                                        TextInput:
+                                            id: buscar_pacientes_excluir
+                                            hint_text: 'CPF'
+                                            multiline: False
+                                            font_size: 18
+                                            size_hint: None, None
+                                            size: 200, 40
+
+                                        Button:
+                                            text: 'Buscar'
+                                            size_hint: None, None
+                                            size: 100, 40
+                                            on_release: root.buscar_paciente()
+
+                                    ScrollView:
+                                        BoxLayout:
+                                            orientation: 'vertical'
+                                            padding: [10, 50, 10, 10]
+                                            spacing: 20
+                                            size_hint_y: None
+                                            height: self.minimum_height
+                                            id: dados_paciente
+                                            Label:
+                                                text: 'Nome Completo:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 135
+                                                height: 40
+                                            TextInput:
+                                                id: nome_excluir
+                                                hint_text: 'Nome Completo'
+                                                multiline: False
+                                                readonly: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'RG:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 25
+                                                height: 40
+                                            TextInput:
+                                                id: rg_excluir
+                                                hint_text: 'RG'
+                                                multiline: False
+                                                readonly: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'CPF:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 35
+                                                height: 40
+                                            TextInput:
+                                                id: cpf_excluir
+                                                hint_text: 'CPF'
+                                                multiline: False
+                                                readonly: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Rua:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 35
+                                                height: 40
+                                            TextInput:
+                                                id: rua_excluir
+                                                hint_text: 'Rua'
+                                                multiline: False
+                                                readonly: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Número:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 70
+                                                height: 40
+                                            TextInput:
+                                                id: numero_excluir
+                                                hint_text: 'Número'
+                                                multiline: False
+                                                readonly: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Complemento:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 115
+                                                height: 40
+                                            TextInput:
+                                                id: complemento_excluir
+                                                hint_text: 'Complemento'
+                                                multiline: False
+                                                readonly: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Bairro:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 50
+                                                height: 40
+                                            TextInput:
+                                                id: bairro_excluir
+                                                hint_text: 'Bairro'
+                                                multiline: False
+                                                readonly: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Cidade:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 60
+                                                height: 40
+                                            TextInput:
+                                                id: cidade_excluir
+                                                hint_text: 'Cidade'
+                                                multiline: False
+                                                readonly: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Estado:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 60
+                                                height: 40
+                                            TextInput:
+                                                id: estado_excluir
+                                                hint_text: 'Estado'
+                                                multiline: False
+                                                readonly: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'CEP:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 35
+                                                height: 40
+                                            TextInput:
+                                                id: cep_excluir
+                                                hint_text: 'CEP'
+                                                multiline: False
+                                                readonly: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Telefone Fixo:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 105
+                                                height: 40
+                                            TextInput:
+                                                id: telefone_fixo_excluir
+                                                hint_text: 'Telefone Fixo'
+                                                multiline: False
+                                                readonly: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Telefone Celular:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 130
+                                                height: 40
+                                            TextInput:
+                                                id: telefone_celular_excluir
+                                                hint_text: 'Telefone Celular'
+                                                multiline: False
+                                                readonly: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Data de Nascimento:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 165
+                                                height: 40
+                                            TextInput:
+                                                id: data_nascimento_excluir
+                                                hint_text: 'DD/MM/AAAA'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Sexo:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 45
+                                                height: 40
+                                            Spinner:
+                                                id: sexo_excluir
+                                                text: 'Sexo'
+                                                values: []
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Possui Convênio/Plano de Saúde:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 265
+                                                height: 40
+                                            Spinner:
+                                                id: tem_convenio_excluir
+                                                text: 'Opções'
+                                                values: []
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Qual empresa do convênio/plano de saúde:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 340
+                                                height: 40
+                                            Spinner:
+                                                id: nome_convenio_excluir
+                                                text: 'Não Possui'
+                                                values: []
+                                                size_hint_y: None
+                                                height: 40
+                                            Button:
+                                                text: 'Excluir'
+                                                size_hint_y: None
+                                                height: 50
+                                                on_release: root.excluir_paciente()
+
+                        BoxLayout:
+                            orientation: 'vertical'
+                            size_hint_y: None
+                            height: self.minimum_height
+                            spacing: 10
+
+                            canvas.before:
+                                Color:
+                                    rgba: 0.2, 0.2, 0.2, 1  # Cor para o fundo
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+
+                            Label:
+                                text: "Cadastrar/Listar/Editar/Excluir:"
+                                font_size: 44
+                                size_hint_y: None
+                                height: 70
+
+                            BoxLayout:
+                                size_hint_y: None
+                                height: 40
+                                spacing: 10
+
+                                Button:
+                                    text: "Cadastrar Paciente"
+                                    on_release: root.ids.screen_manager_paciente.current = 'cadastrar_paciente'
+
+                                Button:
+                                    text: "Listar Pacientes"
+                                    on_release: root.ids.screen_manager_paciente.current = 'listar_pacientes'
+
+                                Button:
+                                    text: "Editar Paciente"
+                                    on_release: root.ids.screen_manager_paciente.current = 'editar_paciente'
+
+                                Button:
+                                    text: "Excluir Paciente"
+                                    on_release: root.ids.screen_manager_paciente.current = 'excluir_paciente'
+
+                            Widget:  # Widget vazio para adicionar espaço abaixo dos botões
+                                size_hint_y: None
+                                height: 10  # Altura do espaço abaixo dos botões

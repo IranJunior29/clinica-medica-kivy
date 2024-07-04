@@ -1,0 +1,1199 @@
+# menuMedico.kv
+
+<MenuMedico>:
+    id: tela_medico
+    BoxLayout:
+        orientation: 'horizontal'
+
+        # Menu lateral
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_x: 0.25
+            padding: 20
+            spacing: 20
+            canvas.before:
+                Color:
+                    rgba: 0.2, 0.2, 0.2, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            # Imagem no topo do menu
+            Image:
+                source: 'data/logo.png'  # Caminho atualizado para a imagem
+                size_hint_y: None
+                height: 100
+                allow_stretch: True
+                keep_ratio: True
+                pos_hint: {'center_x': 0.5}
+            Label:
+                text: 'Usuario:'
+                size_hint_y: None
+                height: 20
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_x: 0.25
+                size_hint_y: 0.15
+                pos_hint: {'center_x': 0.5}
+                padding: 20
+                spacing: 0  # Remove o espaçamento entre os widgets
+
+                Button:
+                    id: identificador_id
+                    text: 'ID'
+                    size_hint_y: None
+                    height: 20  # Altura do primeiro botão
+
+                Button:
+                    id: identificador_cpf
+                    text: 'CPF'
+                    size_hint_y: None
+                    height: 20  # Altura do segundo botão
+            Label:
+                text: 'Menu'
+                size_hint_y: None
+                height: 40
+                color: 1, 1, 1, 1
+                font_size: 24
+                halign: 'center'
+
+            Button:
+                text: 'Consultas Agendadas'
+                size_hint_y: None
+                height: 40
+                on_release: root.ids.screen_manager.current = 'consultas_agendadas'
+            Button:
+                text: 'Prontuarios'
+                size_hint_y: None
+                height: 40
+                on_release: root.ids.screen_manager.current = 'prontuarios'
+            Button:
+                text: 'Exames'
+                size_hint_y: None
+                height: 40
+                on_release: root.ids.screen_manager.current = 'exames'
+            Button:
+                text: 'Medicamentos'
+                size_hint_y: None
+                height: 40
+                on_release: root.ids.screen_manager.current = 'medicamentos'
+
+            Widget:  # Espaço flexível
+                size_hint_y: 1
+
+            Button:
+                text: 'Sair'
+                size_hint_y: None
+                height: 40
+                on_release: root.sair()
+
+        # Área de conteúdo
+        ScreenManager:
+            id: screen_manager
+            Screen:
+                name: 'inicio'
+                BoxLayout:
+                    orientation: 'vertical'
+                    Image:
+                        source: 'data/logo.png'  # Caminho atualizado para a imagem
+                        allow_stretch: True
+                        keep_ratio: True
+
+# Tela de Consultas Agendadas ---------------------------------------------------------
+
+            Screen:
+                name: 'consultas_agendadas'
+                BoxLayout:
+                    orientation: 'horizontal'
+
+                    BoxLayout:
+                        orientation: 'vertical'
+
+                        ScreenManager:
+                            id: screen_manager_agendamento
+
+                            # Tela de listagem de Consultas
+                            Screen:
+                                name: 'listar_consultas'
+                                on_enter: root.visualizar_consulta()
+                                BoxLayout:
+                                    orientation: 'vertical'
+                                    padding: 20
+                                    spacing: 20
+                                    canvas.before:
+                                        Color:
+                                            rgba: 0.9, 0.9, 0.9, 1  # Fundo claro
+                                        Rectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                    BoxLayout:
+                                        size_hint_y: None
+                                        height: 30
+                                        canvas.before:
+                                            Color:
+                                                rgba: (0.2, 0.2, 0.2, 1)
+                                            Rectangle:
+                                                size: self.size
+                                                pos: self.pos
+                                        Label:
+                                            text: 'Nome'
+                                        Label:
+                                            text: 'CPF'
+                                        Label:
+                                            text: 'Telefone Fixo'
+                                        Label:
+                                            text: 'Telefone Celular'
+                                        Label:
+                                            text: 'Data da Consulta'
+                                        Label:
+                                            text: 'Horario da Consulta'
+                                        Label:
+                                            text: 'Tem Convenio'
+                                        Label:
+                                            text: 'Nome Convenio'
+                                        Label:
+                                            text: 'Médico'
+                                    GridLayout:
+                                        id: consultas_grid
+                                        cols: 1
+                        BoxLayout:
+                            orientation: 'vertical'
+                            size_hint_y: None
+                            height: self.minimum_height
+                            spacing: 10
+
+                            canvas.before:
+                                Color:
+                                    rgba: 0.2, 0.2, 0.2, 1  # Cor para o fundo
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+
+                            Label:
+                                text: "Listar:"
+                                font_size: 44
+                                size_hint_y: None
+                                height: 70
+
+                            BoxLayout:
+                                orientation: 'vertical'
+                                size_hint_y: None
+                                height: 40
+                                spacing: 10
+
+                                Button:
+                                    text: "Listar"
+                                    size_hint_y: None
+                                    size_hint_x: None
+                                    height: 40
+                                    width: 600
+                                    pos_hint: {'center_x': 0.5}
+                                    on_release: root.visualizar_consulta()
+
+                            Widget:  # Widget vazio para adicionar espaço abaixo dos botões
+                                size_hint_y: None
+                                height: 10  # Altura do espaço abaixo dos botões
+
+# Tela de Prontuarios ---------------------------------------------------------------------------------
+
+            Screen:
+                name: 'prontuarios'
+                BoxLayout:
+                    orientation: 'horizontal'
+
+                    BoxLayout:
+                        orientation: 'vertical'
+
+                        ScreenManager:
+                            id: screen_manager_prontuario
+
+                            # Tela de Cadastro de Prontuario
+                            Screen:
+                                name: 'novo_prontuario'
+                                BoxLayout:
+                                    orientation: 'vertical'
+                                    padding: 20
+                                    spacing: 20
+                                    canvas.before:
+                                        Color:
+                                            rgba: 0.9, 0.9, 0.9, 1  # Fundo claro
+                                        Rectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                    Label:
+                                        text: 'Cadastrar Novo Prontuario'
+                                        font_size: 44
+                                        color: 0, 0, 0, 1
+                                        size_hint_y: None
+                                        height: 50
+                                    BoxLayout:
+                                        orientation: 'horizontal'
+                                        padding: [10, 50, 10, 10]
+                                        spacing: 20
+                                        size_hint_y: None
+                                        height: self.minimum_height
+
+                                        Label:
+                                            text: 'Buscar Paciente:'
+                                            font_size: 18
+                                            color: 0, 0, 0, 1
+                                            size_hint_x: None
+                                            width: 155
+                                            height: 40
+
+                                        TextInput:
+                                            id: buscar_paciente_novo
+                                            hint_text: 'CPF'
+                                            multiline: False
+                                            font_size: 18
+                                            size_hint: None, None
+                                            size: 200, 40
+
+                                        Button:
+                                            text: 'Buscar'
+                                            size_hint: None, None
+                                            size: 100, 40
+                                            on_release: root.buscar_paciente()
+
+                                    ScrollView:
+                                        BoxLayout:
+                                            orientation: 'vertical'
+                                            padding: [10, 50, 10, 10]
+                                            spacing: 20
+                                            size_hint_y: None
+                                            height: self.minimum_height
+
+                                            Label:
+                                                text: 'Informações do Paciente'
+                                                font_size: 34
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                size_hint_y: None
+                                                width: 380
+                                                height: 80
+                                            Label:
+                                                text: 'Nome do Paciente:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 150
+                                                height: 40
+                                            TextInput:
+                                                id: nome_paciente_cadastrar
+                                                hint_text: 'Nome do Paciente'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'CPF do Paciente:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 135
+                                                height: 40
+                                            TextInput:
+                                                id: cpf_paciente_cadastrar
+                                                hint_text: 'CPF do Paciente'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Data de Nascimento:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 165
+                                                height: 40
+                                            TextInput:
+                                                id: data_nascimento_paciente_cadastrar
+                                                hint_text: 'DD/MM/AAAA'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Gênero:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 60
+                                                height: 40
+                                            TextInput:
+                                                id: sexo_paciente_cadastrar
+                                                hint_text: 'Gênero'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Problemas de Saúde:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 170
+                                                height: 40
+                                            TextInput:
+                                                id: problema_saude_cadastrar
+                                                hint_text: 'Digite aqui...'
+                                                multiline: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 200
+                                                padding: [10, 10, 10, 10]
+                                            Label:
+                                                text: 'Medicamentos:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 125
+                                                height: 40
+                                            TextInput:
+                                                id: medicamentos_cadastrar
+                                                hint_text: 'Digite aqui...'
+                                                multiline: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 200
+                                                padding: [10, 10, 10, 10]
+                                            Label:
+                                                text: 'Exames:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 70
+                                                height: 40
+                                            TextInput:
+                                                id: exames_cadastrar
+                                                hint_text: 'Digite aqui...'
+                                                multiline: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 200
+                                                padding: [10, 10, 10, 10]
+                                            Label:
+                                                text: 'Tratamentos Anteriores:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 190
+                                                height: 40
+                                            TextInput:
+                                                id: tratamento_anteriores_cadastrar
+                                                hint_text: 'Digite aqui...'
+                                                multiline: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 200
+                                                padding: [10, 10, 10, 10]
+                                            Label:
+                                                text: 'Observações:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 105
+                                                height: 40
+                                            TextInput:
+                                                id: observacoes_cadastrar
+                                                hint_text: 'Digite aqui...'
+                                                multiline: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 200
+                                                padding: [10, 10, 10, 10]
+                                            Button:
+                                                text: 'Cadastrar'
+                                                size_hint_y: None
+                                                height: 50
+                                                on_release: root.cadastrar_prontuario()
+
+                            # Tela de Carregar Prontuario
+                            Screen:
+                                name: 'carregar_prontuario'
+                                BoxLayout:
+                                    orientation: 'vertical'
+                                    padding: 20
+                                    spacing: 20
+                                    canvas.before:
+                                        Color:
+                                            rgba: 0.9, 0.9, 0.9, 1  # Fundo claro
+                                        Rectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                    Label:
+                                        text: 'Carregar Prontuario'
+                                        font_size: 44
+                                        color: 0, 0, 0, 1
+                                        size_hint_y: None
+                                        height: 50
+
+                                    BoxLayout:
+                                        orientation: 'horizontal'
+                                        padding: [10, 50, 10, 10]
+                                        spacing: 20
+                                        size_hint_y: None
+                                        height: self.minimum_height
+
+                                        Label:
+                                            text: 'Buscar Paciente:'
+                                            font_size: 18
+                                            color: 0, 0, 0, 1
+                                            size_hint_x: None
+                                            width: 155
+                                            height: 40
+
+                                        TextInput:
+                                            id: buscar_paciente_editar
+                                            hint_text: 'CPF'
+                                            multiline: False
+                                            font_size: 18
+                                            size_hint: None, None
+                                            size: 200, 40
+
+                                        Button:
+                                            text: 'Buscar'
+                                            size_hint: None, None
+                                            size: 100, 40
+                                            on_release: root.buscar_paciente()
+
+                                    ScrollView:
+                                        BoxLayout:
+                                            orientation: 'vertical'
+                                            padding: [10, 50, 10, 10]
+                                            spacing: 20
+                                            size_hint_y: None
+                                            height: self.minimum_height
+
+                                            Label:
+                                                text: 'Informações do Paciente'
+                                                font_size: 34
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                size_hint_y: None
+                                                width: 380
+                                                height: 80
+                                            Label:
+                                                text: 'Nome do Paciente:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 150
+                                                height: 40
+                                            TextInput:
+                                                id: nome_paciente_editar
+                                                hint_text: 'Nome do Paciente'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'CPF do Paciente:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 135
+                                                height: 40
+                                            TextInput:
+                                                id: cpf_paciente_editar
+                                                hint_text: 'CPF do Paciente'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Data de Nascimento:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 165
+                                                height: 40
+                                            TextInput:
+                                                id: data_nascimento_paciente_editar
+                                                hint_text: 'DD/MM/AAAA'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Gênero:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 60
+                                                height: 40
+                                            TextInput:
+                                                id: sexo_paciente_editar
+                                                hint_text: 'Gênero'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Problemas de Saúde:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 170
+                                                height: 40
+                                            TextInput:
+                                                id: problema_saude_editar
+                                                hint_text: 'Digite aqui...'
+                                                multiline: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 200
+                                                padding: [10, 10, 10, 10]
+                                            Label:
+                                                text: 'Medicamentos:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 125
+                                                height: 40
+                                            TextInput:
+                                                id: medicamentos_editar
+                                                hint_text: 'Digite aqui...'
+                                                multiline: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 200
+                                                padding: [10, 10, 10, 10]
+                                            Label:
+                                                text: 'Exames:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 70
+                                                height: 40
+                                            TextInput:
+                                                id: exames_editar
+                                                hint_text: 'Digite aqui...'
+                                                multiline: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 200
+                                                padding: [10, 10, 10, 10]
+                                            Label:
+                                                text: 'Tratamentos Anteriores:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 190
+                                                height: 40
+                                            TextInput:
+                                                id: tratamento_anteriores_editar
+                                                hint_text: 'Digite aqui...'
+                                                multiline: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 200
+                                                padding: [10, 10, 10, 10]
+                                            Label:
+                                                text: 'Observações:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 105
+                                                height: 40
+                                            TextInput:
+                                                id: observacoes_editar
+                                                hint_text: 'Digite aqui...'
+                                                multiline: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 200
+                                                padding: [10, 10, 10, 10]
+                                            Button:
+                                                text: 'Cadastrar'
+                                                size_hint_y: None
+                                                height: 50
+                                                on_release: root.editar_prontuario()
+
+                             # Tela de Excluir Prontuario
+                            Screen:
+                                name: 'excluir_prontuario'
+                                BoxLayout:
+                                    orientation: 'vertical'
+                                    padding: 20
+                                    spacing: 20
+                                    canvas.before:
+                                        Color:
+                                            rgba: 0.9, 0.9, 0.9, 1  # Fundo claro
+                                        Rectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                    Label:
+                                        text: 'Excluir Prontuario'
+                                        font_size: 44
+                                        color: 0, 0, 0, 1
+                                        size_hint_y: None
+                                        height: 50
+
+                                    BoxLayout:
+                                        orientation: 'horizontal'
+                                        padding: [10, 50, 10, 10]
+                                        spacing: 20
+                                        size_hint_y: None
+                                        height: self.minimum_height
+
+                                        Label:
+                                            text: 'Buscar Paciente:'
+                                            font_size: 18
+                                            color: 0, 0, 0, 1
+                                            size_hint_x: None
+                                            width: 155
+                                            height: 40
+
+                                        TextInput:
+                                            id: buscar_paciente_excluir
+                                            hint_text: 'CPF'
+                                            multiline: False
+                                            font_size: 18
+                                            size_hint: None, None
+                                            size: 200, 40
+
+                                        Button:
+                                            text: 'Buscar'
+                                            size_hint: None, None
+                                            size: 100, 40
+                                            on_release: root.buscar_paciente()
+
+                                    ScrollView:
+                                        BoxLayout:
+                                            orientation: 'vertical'
+                                            padding: [10, 50, 10, 10]
+                                            spacing: 20
+                                            size_hint_y: None
+                                            height: self.minimum_height
+
+                                            Label:
+                                                text: 'Informações do Paciente'
+                                                font_size: 34
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                size_hint_y: None
+                                                width: 380
+                                                height: 80
+                                            Label:
+                                                text: 'Nome do Paciente:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 150
+                                                height: 40
+                                            TextInput:
+                                                id: nome_paciente_excluir
+                                                hint_text: 'Nome do Paciente'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'CPF do Paciente:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 135
+                                                height: 40
+                                            TextInput:
+                                                id: cpf_paciente_excluir
+                                                hint_text: 'CPF do Paciente'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Data de Nascimento:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 165
+                                                height: 40
+                                            TextInput:
+                                                id: data_nascimento_paciente_excluir
+                                                hint_text: 'DD/MM/AAAA'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Gênero:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 60
+                                                height: 40
+                                            TextInput:
+                                                id: sexo_paciente_excluir
+                                                hint_text: 'Gênero'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Problemas de Saúde:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 170
+                                                height: 40
+                                            TextInput:
+                                                id: problema_saude_excluir
+                                                hint_text: 'Digite aqui...'
+                                                readonly: True
+                                                multiline: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 200
+                                                padding: [10, 10, 10, 10]
+                                            Label:
+                                                text: 'Medicamentos:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 125
+                                                height: 40
+                                            TextInput:
+                                                id: medicamentos_excluir
+                                                hint_text: 'Digite aqui...'
+                                                readonly: True
+                                                multiline: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 200
+                                                padding: [10, 10, 10, 10]
+                                            Label:
+                                                text: 'Exames:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 70
+                                                height: 40
+                                            TextInput:
+                                                id: exames_excluir
+                                                hint_text: 'Digite aqui...'
+                                                readonly: True
+                                                multiline: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 200
+                                                padding: [10, 10, 10, 10]
+                                            Label:
+                                                text: 'Tratamentos Anteriores:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 190
+                                                height: 40
+                                            TextInput:
+                                                id: tratamento_anteriores_excluir
+                                                hint_text: 'Digite aqui...'
+                                                readonly: True
+                                                multiline: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 200
+                                                padding: [10, 10, 10, 10]
+                                            Label:
+                                                text: 'Observações:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 105
+                                                height: 40
+                                            TextInput:
+                                                id: observacoes_excluir
+                                                hint_text: 'Digite aqui...'
+                                                readonly: True
+                                                multiline: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 200
+                                                padding: [10, 10, 10, 10]
+                                            Button:
+                                                text: 'Excluir'
+                                                size_hint_y: None
+                                                height: 50
+                                                on_release: root.excluir_prontuario()
+
+                        BoxLayout:
+                            orientation: 'vertical'
+                            size_hint_y: None
+                            height: self.minimum_height
+                            spacing: 10
+
+                            canvas.before:
+                                Color:
+                                    rgba: 0.2, 0.2, 0.2, 1  # Cor para o fundo
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+
+                            Label:
+                                text: "Cadastrar/Carregar/Excluir:"
+                                font_size: 44
+                                size_hint_y: None
+                                height: 70
+
+                            BoxLayout:
+                                size_hint_y: None
+                                height: 40
+                                spacing: 10
+
+                                Button:
+                                    text: "Novo Prontuario"
+                                    on_release: root.ids.screen_manager_prontuario.current = 'novo_prontuario'
+
+                                Button:
+                                    text: "Carregar Prontuario"
+                                    on_release: root.ids.screen_manager_prontuario.current = 'carregar_prontuario'
+
+                                Button:
+                                    text: "Excluir Prontuario"
+                                    on_release: root.ids.screen_manager_prontuario.current = 'excluir_prontuario'
+
+                            Widget:  # Widget vazio para adicionar espaço abaixo dos botões
+                                size_hint_y: None
+                                height: 10  # Altura do espaço abaixo dos botões
+
+# Tela de Registro de Exame -------------------------------------------------------------------------
+
+            Screen:
+                name: 'exames'
+                BoxLayout:
+                    orientation: 'horizontal'
+
+                    BoxLayout:
+                        orientation: 'vertical'
+
+                        ScreenManager:
+                            id: screen_manager_exame
+
+                            # Gerar Exame
+                            Screen:
+                                name: 'exame'
+                                BoxLayout:
+                                    orientation: 'vertical'
+                                    padding: 20
+                                    spacing: 20
+                                    canvas.before:
+                                        Color:
+                                            rgba: 0.9, 0.9, 0.9, 1  # Fundo claro
+                                        Rectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                    Label:
+                                        text: 'Registro de Exames'
+                                        font_size: 44
+                                        color: 0, 0, 0, 1
+                                        size_hint_y: None
+                                        height: 50
+
+                                    ScrollView:
+                                        BoxLayout:
+                                            orientation: 'vertical'
+                                            padding: [10, 50, 10, 10]
+                                            spacing: 20
+                                            size_hint_y: None
+                                            height: self.minimum_height
+
+                                            Label:
+                                                text: 'Médico:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 65
+                                                height: 40
+                                            TextInput:
+                                                id: medico_exame
+                                                hint_text: 'Médico'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'CRM:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 45
+                                                height: 40
+                                            TextInput:
+                                                id: crm_exame
+                                                hint_text: 'CRM'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Nome do Paciente:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 150
+                                                height: 40
+                                            TextInput:
+                                                id: nome_paciente_exame
+                                                hint_text: 'Nome do Paciente'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'CPF do Paciente:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 135
+                                                height: 40
+                                            TextInput:
+                                                id: cpf_paciente_exame
+                                                hint_text: 'CPF do Paciente'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Exames:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 65
+                                                height: 40
+                                            TextInput:
+                                                id: exames_exame
+                                                hint_text: 'Digite aqui...'
+                                                multiline: True
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 200
+                                                padding: [10, 10, 10, 10]
+                                            Label:
+                                                text: 'Data:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 45
+                                                height: 40
+                                            TextInput:
+                                                id: data_exame
+                                                hint_text: 'DD/MM/AAAA'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Button:
+                                                text: 'Imprimir'
+                                                size_hint_y: None
+                                                height: 50
+                                                on_release: root.imprimir_exame()
+
+                        BoxLayout:
+                            orientation: 'vertical'
+                            size_hint_y: None
+                            height: self.minimum_height
+                            spacing: 10
+
+                            canvas.before:
+                                Color:
+                                    rgba: 0.2, 0.2, 0.2, 1  # Cor para o fundo
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+
+                            Widget:  # Widget vazio para adicionar espaço abaixo dos botões
+                                size_hint_y: None
+                                height: 10  # Altura do espaço abaixo dos botões
+
+# Tela de Registro de Medicamento -------------------------------------------------------------------
+
+            Screen:
+                name: 'medicamentos'
+                BoxLayout:
+                    orientation: 'horizontal'
+
+                    BoxLayout:
+                        orientation: 'vertical'
+
+                        ScreenManager:
+                            id: screen_manager_medicamento
+
+                            # Gerar Medicamento
+                            Screen:
+                                name: 'medicamento'
+                                BoxLayout:
+                                    orientation: 'vertical'
+                                    padding: 20
+                                    spacing: 20
+                                    canvas.before:
+                                        Color:
+                                            rgba: 0.9, 0.9, 0.9, 1  # Fundo claro
+                                        Rectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                    Label:
+                                        text: 'Registro de Medicamentos'
+                                        font_size: 44
+                                        color: 0, 0, 0, 1
+                                        size_hint_y: None
+                                        height: 50
+
+                                    ScrollView:
+                                        BoxLayout:
+                                            orientation: 'vertical'
+                                            padding: [10, 50, 10, 10]
+                                            spacing: 20
+                                            size_hint_y: None
+                                            height: self.minimum_height
+
+                                            Label:
+                                                text: 'Médico:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 65
+                                                height: 40
+                                            TextInput:
+                                                id: medico_medicamento
+                                                hint_text: 'Médico'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'CRM:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 45
+                                                height: 40
+                                            TextInput:
+                                                id: crm_medicamento
+                                                hint_text: 'CRM'
+                                                readonly: True
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Nome do Paciente:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 150
+                                                height: 40
+                                            TextInput:
+                                                id: nome_paciente_medicamento
+                                                hint_text: 'Nome do Paciente'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'CPF do Paciente:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 135
+                                                height: 40
+                                            TextInput:
+                                                id: cpf_paciente_medicamento
+                                                hint_text: 'CPF do Paciente'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Nome do medicamento:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 190
+                                                height: 40
+                                            TextInput:
+                                                id: nome_medicamento
+                                                hint_text: 'Digite aqui...'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Dosagem:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 80
+                                                height: 40
+                                            TextInput:
+                                                id: dosagem
+                                                hint_text: 'Digite aqui...'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Frequência:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 95
+                                                height: 40
+                                            TextInput:
+                                                id: frequencia
+                                                hint_text: 'Digite aqui...'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Label:
+                                                text: 'Duração:'
+                                                font_size: 18
+                                                color: 0, 0, 0, 1
+                                                size_hint_x: None
+                                                width: 70
+                                                height: 40
+                                            TextInput:
+                                                id: duracao
+                                                hint_text: 'Digite aqui...'
+                                                multiline: False
+                                                font_size: 18
+                                                size_hint_y: None
+                                                height: 40
+                                            Button:
+                                                text: 'Imprimir'
+                                                size_hint_y: None
+                                                height: 50
+                                                on_release: root.imprimir_medicamento()
+
+                        BoxLayout:
+                            orientation: 'vertical'
+                            size_hint_y: None
+                            height: self.minimum_height
+                            spacing: 10
+
+                            canvas.before:
+                                Color:
+                                    rgba: 0.2, 0.2, 0.2, 1  # Cor para o fundo
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+
+                            Widget:  # Widget vazio para adicionar espaço abaixo dos botões
+                                size_hint_y: None
+                                height: 10  # Altura do espaço abaixo dos botões
